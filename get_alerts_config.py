@@ -1,7 +1,7 @@
 from __future__ import print_function
 import json
 import boto3
-import utils
+import get_alerts_utils
 
 dynamo = boto3.client('dynamodb')
 
@@ -22,8 +22,8 @@ def lambda_handler(event, context):
     return respond(None, alerts)
 
 def getAlertsConfig(event):
-    moduleSN = utils.getValueFromEvent(event, 'moduleSN', '')
+    moduleSN = get_alerts_utils.getValueFromEvent(event, 'moduleSN', '')
 
-    response = dynamo.get_item(TableName='AlertConfig', Key=utils.getKeyForGetItem(moduleSN))
+    response = dynamo.get_item(TableName='AlertConfig', Key=get_alerts_utils.getKeyForGetItem(moduleSN))
     print("Response alerts config: " + str(response))
     return response['Item']
